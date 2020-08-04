@@ -1,5 +1,3 @@
-from fnvhash import fnv1a_32
-
 class HashTableEntry:
     """
     Linked List hash table key/value pair
@@ -46,7 +44,7 @@ class HashTable:
         Implement this. --> number of items in hash / total number of slots
         """
         # Your code here
-        return self.get_num_slots() / len(MIN_CAPACITY)
+        return self.get_num_slots() / len(self.capacity)
 
     def fnv1(self, key):
         """
@@ -56,7 +54,7 @@ class HashTable:
         """
 
         # Your code here
-        return hex(fnv1a_32(f'b{key}')) & 0xffffffff
+        pass
 
     def djb2(self, key):
         """
@@ -65,14 +63,18 @@ class HashTable:
         Implement this, and/or FNV-1.
         """
         # Your code here
+        hash = 5381
+        for x in key:
+            hash = (( hash << 5 ) + hash ) + ord(x)
+        return hash & 0xffffffff
 
     def hash_index(self, key):
         """
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        return self.fnv1(key) % self.capacity
-        # return self.djb2(key) % self.capacity
+        # return self.fnv1(key) % self.capacity
+        return self.djb2(key) % self.capacity
 
     def put(self, key, value):
         """
@@ -96,7 +98,7 @@ class HashTable:
         """
         # Your code here
         index = self.hash_index(key)
-        return hash_data[index].remove(key)
+        hash_data[index] = None
 
     def get(self, key):
         """
