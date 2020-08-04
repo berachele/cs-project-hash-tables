@@ -1,3 +1,5 @@
+from fnvhash import fnv1a_32
+
 class HashTableEntry:
     """
     Linked List hash table key/value pair
@@ -10,7 +12,7 @@ class HashTableEntry:
 
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
-
+hash_data = [None] * MIN_CAPACITY
 
 class HashTable:
     """
@@ -19,9 +21,9 @@ class HashTable:
 
     Implement this.
     """
-
     def __init__(self, capacity):
         # Your code here
+        self.capacity = MIN_CAPACITY
 
 
     def get_num_slots(self):
@@ -35,16 +37,16 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        return len(HashTable)
 
     def get_load_factor(self):
         """
         Return the load factor for this hash table.
 
-        Implement this.
+        Implement this. --> number of items in hash / total number of slots
         """
         # Your code here
-
+        return self.get_num_slots() / len(MIN_CAPACITY)
 
     def fnv1(self, key):
         """
@@ -54,7 +56,7 @@ class HashTable:
         """
 
         # Your code here
-
+        return hex(fnv1a_32(f'b{key}')) & 0xffffffff
 
     def djb2(self, key):
         """
@@ -64,14 +66,13 @@ class HashTable:
         """
         # Your code here
 
-
     def hash_index(self, key):
         """
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        #return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+        return self.fnv1(key) % self.capacity
+        # return self.djb2(key) % self.capacity
 
     def put(self, key, value):
         """
@@ -82,7 +83,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        index = self.hash_index(key)
+        hash_data[index] = value
 
     def delete(self, key):
         """
@@ -93,7 +95,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        index = self.hash_index(key)
+        return hash_data[index].remove(key)
 
     def get(self, key):
         """
@@ -104,7 +107,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        index = self.hash_index(key)
+        return hash_data[index]
 
     def resize(self, new_capacity):
         """
