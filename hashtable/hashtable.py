@@ -1,3 +1,69 @@
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+    
+    def __repr__(self):
+        return f'Node({repr(self.value)})'
+
+class LinkList:
+    def __init__(self):
+        self.head = None
+
+    def __str__(self):
+        if self.head is None:
+            return "[Empty List]"
+
+        cur = self.head
+        s = ""
+
+        while cur != None:
+            s += f'({cur.value})'
+
+            if cur.next is not None:
+                s += '-->'
+
+            cur = cur.next
+        return s
+
+    def find(self, value):
+        cur = self.head
+
+        while cur is not None:
+            if cur.value = value:
+                return cur
+            cur = cur.next
+
+        return None
+
+    def delete(self, value):
+        cur = self.head
+
+        if cur.value == value:
+            self.head = cur.next
+            return cur
+        prev = cur
+        cur = cur.next
+
+        while cur is not None:
+            if cur.value == value:
+                prev.next = cur.next
+                return cur
+            prev = curcur = cur.next
+        
+        return None
+
+    def addToHead(self, node):
+        node.next = self.head
+        self.head = node
+    
+    def insert_overwrite(self, value):
+        node = self.find(value)
+
+        if node is None:
+            self.addToHead(Node(value))
+        node.value = value
+
 class HashTableEntry:
     """
     Linked List hash table key/value pair
@@ -45,16 +111,6 @@ class HashTable:
         """
         # Your code here
         return self.get_num_slots() / len(self.capacity)
-
-    def fnv1(self, key):
-        """
-        FNV-1 Hash, 64-bit
-
-        Implement this, and/or DJB2.
-        """
-
-        # Your code here
-        pass
 
     def djb2(self, key):
         """
