@@ -1,5 +1,6 @@
 class Node:
-    def __init__(self, value):
+    def __init__(self, key, value):
+        self.key = key
         self.value = value
         self.next = None
     
@@ -30,7 +31,7 @@ class LinkList:
         cur = self.head
 
         while cur is not None:
-            if cur.value = value:
+            if cur.value == value:
                 return cur
             cur = cur.next
 
@@ -49,7 +50,8 @@ class LinkList:
             if cur.value == value:
                 prev.next = cur.next
                 return cur
-            prev = curcur = cur.next
+            prev = cur
+            cur = cur.next
         
         return None
 
@@ -57,11 +59,11 @@ class LinkList:
         node.next = self.head
         self.head = node
     
-    def insert_overwrite(self, value):
+    def insert_overwrite(self, key, value):
         node = self.find(value)
 
         if node is None:
-            self.addToHead(Node(value))
+            self.addToHead(Node(key, value))
         node.value = value
 
 class HashTableEntry:
@@ -73,10 +75,8 @@ class HashTableEntry:
         self.value = value
         self.next = None
 
-
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
-hash_data = [None] * MIN_CAPACITY
 
 class HashTable:
     """
@@ -85,9 +85,11 @@ class HashTable:
 
     Implement this.
     """
-    def __init__(self, capacity):
+    def __init__(self, capacity=MIN_CAPACITY):
         # Your code here
-        self.capacity = MIN_CAPACITY
+        self.capacity = capacity
+        self.storage = [None] * capacity
+        self.count = 0
 
 
     def get_num_slots(self):
@@ -95,9 +97,7 @@ class HashTable:
         Return the length of the list you're using to hold the hash
         table data. (Not the number of items stored in the hash table,
         but the number of slots in the main list.)
-
         One of the tests relies on this.
-
         Implement this.
         """
         # Your code here
@@ -110,7 +110,7 @@ class HashTable:
         Implement this. --> number of items in hash / total number of slots
         """
         # Your code here
-        return self.get_num_slots() / len(self.capacity)
+        return self.count / len(self.capacity)
 
     def djb2(self, key):
         """
@@ -135,14 +135,23 @@ class HashTable:
     def put(self, key, value):
         """
         Store the value with the given key.
-
         Hash collisions should be handled with Linked List Chaining.
-
         Implement this.
         """
         # Your code here
+        #figure out index
         index = self.hash_index(key)
-        hash_data[index] = value
+        curNode = self.storage[index]
+        #search LL if key is there
+        if curNode is not None:
+            #if current key is there, overwrite
+            if curNode.key == key:
+                self.storage[index] = HashTableEntry(key, value)
+                self.count += 1
+        #if not, HashTableEntry and insert to list
+        # self.storage.insert_overwrite(value)
+        self.storage[index] = HashTableEntry(key, value)
+        self.count += 1
 
     def delete(self, key):
         """
@@ -153,8 +162,13 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        #Figure out index
+        #Search for HTE that match keys
+            #if found, delete entry form linked list, return value
+            #return None
         index = self.hash_index(key)
-        hash_data[index] = None
+        # hash_data[index] = None
+        self.count -= 1
 
     def get(self, key):
         """
@@ -165,8 +179,14 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        #Figure out index for the key
         index = self.hash_index(key)
-        return hash_data[index]
+        curNode = self.storage[index]
+        #Search LL for HashTableEntry that matches key
+        if curNode is not None:
+            #Return value for entry, and None if not found
+            return curNode
+        return None
 
     def resize(self, new_capacity):
         """
