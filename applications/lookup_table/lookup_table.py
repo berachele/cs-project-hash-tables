@@ -11,10 +11,7 @@ def slowfun_too_slow(x, y):
     return v
 
 cache = {
-    "powEx": 0,
-    "factor": 0,
-    "divide": 0,
-    "modulo": 0
+    "answer": 0   
 }
 def slowfun(x, y):
     """
@@ -23,11 +20,11 @@ def slowfun(x, y):
     """
     # Your code here
     powEx2 = math.pow(x, y)
-    cache["powEx"] = int(powEx2)
+    cache["answer"] = int(powEx2)
     factorial2 = math.factorial(powEx2)
-    cache["factorial"] = int(factorial2)
+    cache["answer"] = int(factorial2)
     divide2 = factorial2 // (x+y)
-    cache["divide"] = int(divide2)
+    cache["answer"] = int(divide2)
     mod2 = divide2 % 982451653
     return mod2
     
