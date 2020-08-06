@@ -1,16 +1,16 @@
 def no_dups(s):
     # Your code here
     #split string into words
-    words = s.split()
     #assign list for duplicate words
-    dups = []
     #final string
-    string = ""
     #add word to dups list if not already in there
+    #combine dups list into string again
+    words = s.split()
+    dups = []
+    string = ""
     for word in words:
         if word not in dups:
             dups.append(word)
-    #combine dups list into string again
     string += " ".join(dups)
 
     return string

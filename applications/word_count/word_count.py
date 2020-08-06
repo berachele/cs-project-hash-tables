@@ -1,22 +1,19 @@
 def word_count(s):
     # Your code here
-    symbols = ['"', ':', ';', ',', '.', '-', '+', '=', '/', '|', '[', ']', '{', '}', '(', ')', '*', '^', '&', '\r', '\n', '\t', '\\' ]
     #ignore spaces and symbols
+    #all lowercase
+    #split each word based on space, ignoring spaces as well
+        #add to counter if word is there
+        #otherwise counter is 1 for one appearance
+    symbols = ['"', ':', ';', ',', '.', '-', '+', '=', '/', '|', '[', ']', '{', '}', '(', ')', '*', '^', '&', '\r', '\n', '\t', '\\' ]
     for i in symbols:
         s = s.replace(i, " ")
-    #all lowercase
     s.lower()
-    #split each word based on space, ignoring spaces as well
     words = s.lower().split()
     counter = {}
     for word in words:
-        # word.lower()
-        #add to counter if word is there
         if word not in counter:
-            # print(f'{word}: only one')
             counter[word] = 0
-            #otherwise counter is 1 for one appearance
-        # print(f'{word}: Adding one')
         counter[word] += 1
     return counter
 
